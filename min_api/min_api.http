@@ -1,0 +1,11 @@
+﻿@min_api_HostAddress = https://localhost:7290
+
+#### Adding new items
+POST {{min_api_HostAddress}}/todoitems
+Content-Type: application/json
+
+{
+  "name":"walk cat",
+  "isComplete":true
+}
+###

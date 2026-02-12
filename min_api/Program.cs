@@ -2,9 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using min_api;
 
 var builder = WebApplication.CreateBuilder(args);
-// Setting into the database memoty
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
-// Remove this when pushing to Azure
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
 
@@ -22,6 +20,11 @@ app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
 
 app.MapPost("/todoitems", async (Todo todo, TodoDb db) =>
 {
+    if (string.IsNullOrWhiteSpace(todo.Name))
+    {
+        return Results.NoContent();
+    }
+
     db.Todos.Add(todo);
     await db.SaveChangesAsync();
 

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "yPkkbBlh6zM=",
+  "success": true,
+  "projectFilePath": "D:\\faizalWork\\fw_minimal_api_net8\\min_api\\min_api\\min_api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\afaiz\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\10.0.3\\microsoft.aspnetcore.diagnostics.entityframeworkcore.10.0.3.nupkg.sha512",
+    "C:\\Users\\afaiz\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.3\\microsoft.entityframeworkcore.10.0.3.nupkg.sha512",
+    "C:\\Users\\afaiz\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.3\\microsoft.entityframeworkcore.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\afaiz\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.3\\microsoft.entityframeworkcore.analyzers.10.0.3.nupkg.sha512",
+    "C:\\Users\\afaiz\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\10.0.3\\microsoft.entityframeworkcore.inmemory.10.0.3.nupkg.sha512",
+    "C:\\Users\\afaiz\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\10.0.3\\microsoft.entityframeworkcore.relational.10.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
