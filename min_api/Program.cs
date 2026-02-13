@@ -23,24 +23,35 @@ app.Run();
 // Get all list
 static async Task<IResult> GetAllTodos(TodoDb db)
 {
-    return TypedResults.Ok(await db.Todos.ToArrayAsync());
+    // Updated to use DTO
+    return TypedResults.Ok(await db.Todos
+                                   .Select(x => new TodoItemDTO(x))
+                                   .ToArrayAsync());
 }
 
 // Get completed
 static async Task<IResult> GetCompleteTodos(TodoDb db)
 {
-    return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete==true).ToArrayAsync());
+    return TypedResults.Ok(await db.Todos
+                                   .Where(t => t.IsComplete==true)
+                                   .Select(x => new TodoItemDTO(x))
+                                   .ToArrayAsync());
 }
 
 // Get based on ID
 static async Task<IResult> GetTodo(int id, TodoDb db)
 {
     return await db.Todos.FindAsync(id)
-        is Todo todo ? TypedResults.Ok() : TypedResults.NotFound();
+        is Todo todo 
+        ? TypedResults.Ok(new TodoItemDTO(todo)) 
+        : TypedResults.NotFound();
 }
 
 // Adding into todo
-static async Task<IResult> CreateTodo( Todo todo, TodoDb db)
+static async Task<IResult> CreateTodo( 
+    Todo todo, 
+    TodoDb db, 
+    TodoItemDTO todoItemDTO)
 {
     if (string.IsNullOrWhiteSpace(todo.Name))
     {
@@ -49,13 +60,19 @@ static async Task<IResult> CreateTodo( Todo todo, TodoDb db)
 
     db.Todos.Add(todo);
     await db.SaveChangesAsync();
-    return TypedResults.Created($"/todoitems/{todo.Id}", todo);
+    todoItemDTO = new TodoItemDTO(todo);
+    return TypedResults.Created($"/todoitems/{todoItemDTO.Id}"
+                                , todoItemDTO);
 }
 
 // Update
-static async Task<IResult> UpdateTodo(int id, Todo todoInput, TodoDb db)
+// Replaced todoInput with todoItemDTO to ensure secret is never called
+static async Task<IResult> UpdateTodo(
+    int id, 
+    TodoItemDTO todoItemDTO,
+    TodoDb db)
 {
-    if (string.IsNullOrWhiteSpace(todoInput.Name))
+    if (string.IsNullOrWhiteSpace(todoItemDTO.Name))
     {
         return Results.NoContent();
     }
@@ -65,8 +82,8 @@ static async Task<IResult> UpdateTodo(int id, Todo todoInput, TodoDb db)
         return TypedResults.NotFound();
     }
 
-    todoNew?.Name = todoInput.Name;
-    todoNew?.IsComplete = todoInput.IsComplete;
+    todoNew?.Name = todoItemDTO.Name;
+    todoNew?.IsComplete = todoItemDTO.IsComplete;
 
     await db.SaveChangesAsync();
     return TypedResults.Ok();
