@@ -8,6 +8,7 @@
         public bool IsComplete { get; set; }
 
         public TodoItemDTO() { }
-        public TodoItemDTO(Todo todo) => (Id, Name, IsComplete) = (Id, Name, IsComplete);
+        public TodoItemDTO(Todo todo) => (Id, Name, IsComplete) 
+                                            = (todo.Id, todo.Name, todo.IsComplete);;
     }
 }

@@ -49,14 +49,19 @@ static async Task<IResult> GetTodo(int id, TodoDb db)
 
 // Adding into todo
 static async Task<IResult> CreateTodo( 
-    Todo todo, 
     TodoDb db, 
     TodoItemDTO todoItemDTO)
 {
-    if (string.IsNullOrWhiteSpace(todo.Name))
+    if (string.IsNullOrWhiteSpace(todoItemDTO.Name))
     {
         return Results.NoContent();
     }
+
+    var todo = new Todo
+    {
+        Name = todoItemDTO.Name,
+        IsComplete = todoItemDTO.IsComplete
+    };
 
     db.Todos.Add(todo);
     await db.SaveChangesAsync();
@@ -78,7 +83,7 @@ static async Task<IResult> UpdateTodo(
     }
 
     var todoNew = await db.Todos.FindAsync(id);
-    if (todoNew != null) {
+    if (todoNew == null) {
         return TypedResults.NotFound();
     }
 
